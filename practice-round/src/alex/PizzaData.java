@@ -6,6 +6,6 @@ public class PizzaData {
     public int C;
     public int L;
     public int H;
-    public boolean[][] initialPizza; // 0 = T; 1 = M
+    public int[][] initialPizza; // 0 = T; 1 = M
 
 }

@@ -17,7 +17,7 @@ public class PizzaReader {
             pizzaData.L = Integer.parseInt(splitted[2]);
             pizzaData.H = Integer.parseInt(splitted[3]);
 
-            pizzaData.initialPizza = new boolean[pizzaData.R][pizzaData.C];
+            pizzaData.initialPizza = new int[pizzaData.R][pizzaData.C];
 
             int j = 0;
             while (line != null) {
@@ -27,9 +27,9 @@ public class PizzaReader {
                 }
                 for (int i = 0; i < line.length(); i++) {
                     if (line.charAt(i) == 'M') {
-                        pizzaData.initialPizza[j][i] = true;
+                        pizzaData.initialPizza[j][i] = 1;
                     } else {
-                        pizzaData.initialPizza[j][i] = false;
+                        pizzaData.initialPizza[j][i] = 0;
                     }
                 }
                 j++;
