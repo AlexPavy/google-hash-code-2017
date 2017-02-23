@@ -1,5 +1,6 @@
 package common;
 
+import alex.Calculator;
 import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Problem;
@@ -63,11 +64,15 @@ public class Main {
             problem.cacheList.put(i,cache);
         }
 
+        Calculator calculator = new Calculator();
+        calculator.buildScores(problem);
+        calculator.addVideosInOrder();
+
 
         //contruction object
-        for (String s : listString){
+        for (Integer s : problem.cacheList.keySet()){
 
-            System.out.println(s.toString());
+            System.out.println(problem.cacheList.get(s));
         }
 
         List<String> output = new ArrayList<String>();
