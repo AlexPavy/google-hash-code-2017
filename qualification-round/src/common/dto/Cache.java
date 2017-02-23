@@ -6,6 +6,7 @@ import java.util.List;
  * Created by minhngocnguyen on 23/02/2017.
  */
 public class Cache {
+    private int id;
     private int size;
     private int totalSize;
     private List<Video> videoList;
