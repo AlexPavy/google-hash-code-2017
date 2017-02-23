@@ -15,9 +15,9 @@ public class Calculator {
         for (Cache cache : problem.cacheList.values()) {
             map.put(cache, new TreeSet<>((o1, o2) -> {
                 if(o1.score > o2.score) {
-                    return 1;
-                } else if (o1.score < o2.score) {
                     return -1;
+                } else if (o1.score < o2.score) {
+                    return 1;
                 } else {
                     return 0;
                 }
@@ -26,6 +26,10 @@ public class Calculator {
                 double score = 0;
                 for (Endpoint endpoint : problem.endpointList.values()) {
                     score += new ScoreKey(cache, endpoint, video).buildScore();
+//                    System.out.println("cache: " + cache.id
+//                            + " ; video: " + video.id
+//                            + " ; endpoint" + endpoint.id
+//                            + " ; score: " + score);
                 }
                 score = score / video.size;
                 map.get(cache).add(new VideoWithScore(video, score));
@@ -39,10 +43,12 @@ public class Calculator {
             cache.videoList = new ArrayList<>();
             int currentSize = 0;
             for (VideoWithScore videoWithScore : cacheSortedSetEntry.getValue()) {
-                currentSize += videoWithScore.video.size;
-                if (cache.getSize() >= currentSize) {
+                int possibleSize = currentSize + videoWithScore.video.size;
+                if (cache.getSize() >= possibleSize) {
                     cache.videoList.add(videoWithScore.video);
-                } else {
+                    currentSize = possibleSize;
+                }
+                if (cache.getSize() <= currentSize) {
                     break;
                 }
             }

@@ -13,7 +13,7 @@ public class FileUtils {
 		if(null==fileName){
 			throw new InvalidParameterException("Le parametre 'fileInputStream' est null.");
 		}
-        List<String> lines = Files.readAllLines(Paths.get(fileName));
+        List<String> lines = Files.readAllLines(Paths.get("qualification-round/" +fileName));
 
 		return lines;
 	}
