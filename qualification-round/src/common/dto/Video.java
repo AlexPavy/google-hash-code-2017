@@ -9,6 +9,12 @@ public class Video {
     private int id;
     private int size;
 
+
+    public Video(int id, int size) {
+        this.id = id;
+        this.size = size;
+    }
+
     //Cle = idEndPoint, value = nbRequest
     private Map<Integer,Integer> video;
 

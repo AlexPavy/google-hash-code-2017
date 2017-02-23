@@ -1,6 +1,7 @@
 package common;
 
 import common.dto.Problem;
+import common.dto.Video;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,9 +26,14 @@ public class Main {
         problem.C = Integer.getInteger(tmp[3]);
         problem.X = Integer.getInteger(tmp[4]);
 
-        //Tail video
+        // video
         tmp = listString.get(0).split(" ");
+        for(int i = 0; i<tmp.length; i++){
+            Video videoTmp = new Video(i,Integer.getInteger(tmp[i]));
+            problem.videoList.put(i,videoTmp);
+        }
 
+        //
 
 
         //contruction object
