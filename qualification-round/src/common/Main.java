@@ -79,9 +79,6 @@ public class Main {
             output.add(problem.cacheList.get(s).toString());
         }
 
-
-        //output.add("kncdkfjnvdkfjv");
-        //Write output
         FileUtils.writeLine(outputFilename,output);
     }
 }
