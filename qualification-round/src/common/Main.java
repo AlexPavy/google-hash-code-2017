@@ -1,5 +1,6 @@
 package common;
 
+import alex.Calculator;
 import common.dto.Problem;
 import common.dto.Video;
 
@@ -40,8 +41,10 @@ public class Main {
             //Endpoint endpointTmp = new Endpoint(i,Integer.parseInt(tmp[0]));
         }
 
-
-
+        // algo
+        Calculator calculator = new Calculator();
+        calculator.buildScores(problem);
+        calculator.addVideosInOrder();
 
         //contruction object
         for (String s : listString){
