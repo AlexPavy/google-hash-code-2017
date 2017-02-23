@@ -11,6 +11,12 @@ public class Cache {
     public int totalSize;
     public List<Video> videoList;
 
+
+    public Cache(int id, int size) {
+        this.id = id;
+        this.size = size;
+    }
+
     public int getSize() {
         return size;
     }

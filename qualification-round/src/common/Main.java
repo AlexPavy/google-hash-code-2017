@@ -1,5 +1,7 @@
 package common;
 
+import common.dto.Cache;
+import common.dto.Endpoint;
 import common.dto.Problem;
 import common.dto.Video;
 
@@ -34,13 +36,32 @@ public class Main {
         }
 
         int lignNumber = 2;
-
+        //Endpoint
         for(int i=0; i<problem.E; i++){
-            tmp = listString.get(0).split(" "); //Description du endpoint
-            //Endpoint endpointTmp = new Endpoint(i,Integer.parseInt(tmp[0]));
+            tmp = listString.get(lignNumber).split(" "); //Description du endpoint
+            Endpoint endpointTmp = new Endpoint(i,Integer.parseInt(tmp[0]),Integer.parseInt(tmp[1]));
+            problem.endpointList.put(i,endpointTmp);
+            for(int j=0; j<Integer.parseInt(tmp[1]);j++){
+                lignNumber++;
+                String[] tmpConnection = listString.get(lignNumber).split(" ");
+                endpointTmp.connections.put(Integer.parseInt(tmpConnection[0]),Integer.parseInt(tmpConnection[1]));
+            }
+            lignNumber++;
         }
 
 
+        //Requests
+        for(int i=0; i<problem.R; i++){
+            tmp = listString.get(lignNumber).split(" ");
+            problem.videoList.get(Integer.parseInt(tmp[1])).requests.put(Integer.parseInt(tmp[0]),Integer.parseInt(tmp[2]));
+            lignNumber++;
+        }
+
+
+        for(int i=0; i<problem.C;i++){
+            Cache cache = new Cache(i,problem.X);
+            problem.cacheList.put(i,cache);
+        }
 
 
         //contruction object

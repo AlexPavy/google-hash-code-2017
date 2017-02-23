@@ -1,5 +1,6 @@
 package common.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -14,10 +15,11 @@ public class Endpoint {
         this.id = id;
         this.datacenter_latency = datacenter_latency;
         this.nbCache = nbCache;
+        this.connections = new HashMap<>();
     }
 
     //Cle = idCache, value = latency
-    private Map<Integer,Integer> connections;
+    public Map<Integer,Integer> connections;
 
     public int getId() {
         return id;

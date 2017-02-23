@@ -1,5 +1,6 @@
 package common.dto;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,6 +14,7 @@ public class Video {
     public Video(int id, int size) {
         this.id = id;
         this.size = size;
+        this.requests = new HashMap<>();
     }
 
     //Cle = idEndPoint, value = nbRequest

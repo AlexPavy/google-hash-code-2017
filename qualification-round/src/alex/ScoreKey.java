@@ -17,7 +17,7 @@ public class ScoreKey {
     }
 
     public double buildScore() {
-        return ((double) video.getVideo().get(endpoint.getId()))
+        return ((double) video.requests.get(endpoint.getId()))
                 / ((double) endpoint.getConnections().get(cache.id));
     }
 
