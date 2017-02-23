@@ -54,13 +54,16 @@ public class Main {
         //Requests
         for(int i=0; i<problem.R; i++){
             tmp = listString.get(lignNumber).split(" ");
-            problem.videoList.get(Integer.parseInt(tmp[1])).requests.put(Integer.parseInt(tmp[0]),Integer.parseInt(tmp[2]));
+            problem.videoList.get(Integer.parseInt(tmp[0])).requests.put(Integer.parseInt(tmp[1]),Integer.parseInt(tmp[2]));
             lignNumber++;
         }
 
 
         for(int i=0; i<problem.C;i++){
             Cache cache = new Cache(i,problem.X);
+
+
+
             problem.cacheList.put(i,cache);
         }
         Calculator calculator = new Calculator();
@@ -69,13 +72,15 @@ public class Main {
 
 
         //contruction object
+        List<String> output = new ArrayList<String>();
+        output.add(problem.cacheList.size()+"");
         for (Integer s : problem.cacheList.keySet()){
 
-            System.out.println(problem.cacheList.get(s));
+            output.add(problem.cacheList.get(s).toString());
         }
 
-        List<String> output = new ArrayList<String>();
-        output.add("kncdkfjnvdkfjv");
+
+        //output.add("kncdkfjnvdkfjv");
         //Write output
         FileUtils.writeLine(outputFilename,output);
     }

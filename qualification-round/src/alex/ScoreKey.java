@@ -4,6 +4,8 @@ import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Video;
 
+import java.util.Map;
+
 public class ScoreKey {
 
     public final Cache cache;
@@ -17,12 +19,25 @@ public class ScoreKey {
     }
 
     public double buildScore() {
-            double latency = endpoint.getConnections().get(cache.id);
+        Map<Integer, Integer> connections = endpoint.getConnections();
+        Integer latencyInt = connections.get(cache.id);
+        if (latencyInt == null) {
+            return 0;
+        }
+        double latency = latencyInt;
             if (latency >= endpoint.datacenter_latency) {
                 return 0;
             }
-            return ((double) video.requests.get(endpoint.getId()))
+            endpoint.getId();
+            double v;
+
+        if (video.requests.get(endpoint.getId())==null) {
+            v = 0;
+        } else {
+           v = ((double) video.requests.get(endpoint.getId()))
                     / latency;
+        }
+        return v;
     }
 
     @Override

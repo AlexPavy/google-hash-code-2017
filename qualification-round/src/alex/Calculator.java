@@ -39,9 +39,9 @@ public class Calculator {
             cache.videoList = new ArrayList<>();
             int currentSize = 0;
             for (VideoWithScore videoWithScore : cacheSortedSetEntry.getValue()) {
+                currentSize += videoWithScore.video.size;
                 if (cache.getSize() >= currentSize) {
                     cache.videoList.add(videoWithScore.video);
-                    currentSize += videoWithScore.video.size;
                 } else {
                     break;
                 }

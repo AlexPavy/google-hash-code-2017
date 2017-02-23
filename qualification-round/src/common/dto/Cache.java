@@ -44,7 +44,18 @@ public class Cache {
     }
 
     @Override
+    public String toString() {
+        String toString = id+"";
+        for (Video video : getVideoList()){
+            toString +=  " " + video.id;
+        }
+        return toString;
+    }
+
+    @Override
     public int hashCode() {
         return id;
     }
+
+
 }
