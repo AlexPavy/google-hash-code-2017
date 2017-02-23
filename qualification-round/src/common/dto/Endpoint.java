@@ -13,7 +13,7 @@ public class Endpoint {
     public Endpoint(int id, int datacenter_latency, int nbCache) {
         this.id = id;
         this.datacenter_latency = datacenter_latency;
-        this.nbCache = nbCache
+        this.nbCache = nbCache;
     }
 
     //Cle = idCache, value = latency
