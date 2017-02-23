@@ -41,4 +41,19 @@ public class Video {
     public void setVideo(Map<Integer, Integer> video) {
         this.video = video;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Video video = (Video) o;
+
+        return id == video.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
