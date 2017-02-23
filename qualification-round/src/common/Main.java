@@ -20,20 +20,27 @@ public class Main {
         //Entete : 5 videos, 2 endpoints, 4 request descriptions, 3 caches,  100MB each.
         String[] tmp = listString.get(0).split(" ");
         Problem problem = new Problem();
-        problem.V = Integer.getInteger(tmp[0]);
-        problem.E = Integer.getInteger(tmp[1]);
-        problem.R = Integer.getInteger(tmp[2]);
-        problem.C = Integer.getInteger(tmp[3]);
-        problem.X = Integer.getInteger(tmp[4]);
+        problem.V = Integer.parseInt(tmp[0]);
+        problem.E = Integer.parseInt(tmp[1]);
+        problem.R = Integer.parseInt(tmp[2]);
+        problem.C = Integer.parseInt(tmp[3]);
+        problem.X = Integer.parseInt(tmp[4]);
 
         // video
-        tmp = listString.get(0).split(" ");
+        tmp = listString.get(1).split(" ");
         for(int i = 0; i<tmp.length; i++){
-            Video videoTmp = new Video(i,Integer.getInteger(tmp[i]));
+            Video videoTmp = new Video(i,Integer.parseInt(tmp[i]));
             problem.videoList.put(i,videoTmp);
         }
 
-        //
+        int lignNumber = 2;
+
+        for(int i=0; i<problem.E; i++){
+            tmp = listString.get(0).split(" "); //Description du endpoint
+            //Endpoint endpointTmp = new Endpoint(i,Integer.parseInt(tmp[0]));
+        }
+
+
 
 
         //contruction object
