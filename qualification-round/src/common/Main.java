@@ -63,7 +63,6 @@ public class Main {
             Cache cache = new Cache(i,problem.X);
             problem.cacheList.put(i,cache);
         }
-
         Calculator calculator = new Calculator();
         calculator.buildScores(problem);
         calculator.addVideosInOrder();
