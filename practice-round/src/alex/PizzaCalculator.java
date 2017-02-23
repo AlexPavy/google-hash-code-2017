@@ -19,6 +19,7 @@ public class PizzaCalculator {
                 }
             }
         }
+        return 0;
     }
 
     private int enumerateStartingOn(

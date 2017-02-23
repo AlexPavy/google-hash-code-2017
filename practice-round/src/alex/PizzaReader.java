@@ -7,6 +7,7 @@ import java.io.IOException;
 public class PizzaReader {
 
     public static void main(String[] args) throws IOException {
+        new DataWriter().write();
         try (BufferedReader br = new BufferedReader(new FileReader("practice-round/big.in"))) {
             String line = br.readLine();
 
