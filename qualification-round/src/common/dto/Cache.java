@@ -27,5 +27,18 @@ public class Cache {
         this.videoList = videoList;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Cache cache = (Cache) o;
+
+        return id == cache.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

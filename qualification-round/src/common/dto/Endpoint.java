@@ -34,4 +34,19 @@ public class Endpoint {
     public void setConnections(Map<Integer, Integer> connections) {
         this.connections = connections;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Endpoint endpoint = (Endpoint) o;
+
+        return id == endpoint.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }
