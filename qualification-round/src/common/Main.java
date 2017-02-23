@@ -1,5 +1,6 @@
 package common;
 
+import alex.Calculator;
 import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Problem;
@@ -63,6 +64,10 @@ public class Main {
             problem.cacheList.put(i,cache);
         }
 
+        // algo
+        Calculator calculator = new Calculator();
+        calculator.buildScores(problem);
+        calculator.addVideosInOrder();
 
         //contruction object
         for (String s : listString){

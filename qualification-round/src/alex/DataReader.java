@@ -1,5 +1,7 @@
 package alex;
 
+import common.dto.Problem;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,7 +9,7 @@ import java.io.IOException;
 public class DataReader {
 
     public static void main(String[] args) throws IOException {
-        new DataWriter().write();
+        new DataWriter().write(new Problem());
         try (BufferedReader br = new BufferedReader(
                 new FileReader("qualification-round/big.in"))) {
             String line = br.readLine();
