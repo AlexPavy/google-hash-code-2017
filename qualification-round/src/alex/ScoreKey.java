@@ -17,8 +17,17 @@ public class ScoreKey {
     }
 
     public double buildScore() {
+<<<<<<< HEAD
         return ((double) video.requests.get(endpoint.getId()))
                 / ((double) endpoint.getConnections().get(cache.id));
+=======
+            double latency = endpoint.getConnections().get(cache.id);
+            if (latency >= endpoint.datacenter_latency) {
+                return 0;
+            }
+            return ((double) video.requests.get(endpoint.getId()))
+                    / latency;
+>>>>>>> 976bcc3cb0281eabd25e8de6a1d5fc4ecabb9c48
     }
 
     @Override
