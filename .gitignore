@@ -1,7 +1,7 @@
-/.idea
-/out
+.idea
+out
 *.iml
-*.out
 *.xml
 *.zip
-*.in
+*.DS_Store
+*.out

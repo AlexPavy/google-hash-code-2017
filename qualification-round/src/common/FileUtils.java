@@ -13,15 +13,16 @@ public class FileUtils {
 		if(null==fileName){
 			throw new InvalidParameterException("Le parametre 'fileInputStream' est null.");
 		}
-        List<String> lines = Files.readAllLines(Paths.get("qualification-round/" +fileName));
+        List<String> lines = Files.readAllLines(Paths.get("qualification-round/input/" +fileName));
 
 		return lines;
 	}
 
-	public static boolean writeLine(String fileName, List<? extends Object> toWrite) throws IOException {
+	public static boolean writeLine(String fileName, List<? extends Object> toWrite)
+			throws IOException {
         //List-Object to String
         List<String> lines = toWrite.stream().map(Object::toString).collect(Collectors.toList());
-        Files.write(Paths.get(fileName), lines);
+        Files.write(Paths.get("qualification-round/output/" + fileName), lines);
         return true;
     }
 }

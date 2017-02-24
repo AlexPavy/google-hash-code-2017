@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-        String inputFilename = args[0];
-        String outputFilename = "output_"+inputFilename;
+        final String inputFilename = args[0] + ".in";
+        final String outputFilename = args[0] + ".out";
         //Read input
-        List<String> listString =  FileUtils.readLines(args[0]);
+        final List<String> listString =  FileUtils.readLines(inputFilename);
 
         //Entete : 5 videos, 2 endpoints, 4 request descriptions, 3 caches,  100MB each.
         String[] tmp = listString.get(0).split(" ");
@@ -71,14 +71,14 @@ public class Main {
         calculator.addVideosInOrder();
 
 
-        //contruction object
-        List<String> output = new ArrayList<String>();
+        // output
+        List<String> output = new ArrayList<>();
         output.add(problem.cacheList.size()+"");
         for (Integer s : problem.cacheList.keySet()){
 
             output.add(problem.cacheList.get(s).toString());
         }
 
-        FileUtils.writeLine(outputFilename,output);
+        FileUtils.writeLine(outputFilename, output);
     }
 }
