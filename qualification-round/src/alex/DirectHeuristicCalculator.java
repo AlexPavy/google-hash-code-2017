@@ -7,33 +7,34 @@ import common.dto.Video;
 
 import java.util.*;
 
-public class Calculator {
+public class DirectHeuristicCalculator {
 
     final Map<Cache, SortedSet<VideoWithScore>> map = new HashMap<>();
 
     public void buildScores(Problem problem) {
         for (Cache cache : problem.cacheList.values()) {
-            map.put(cache, new TreeSet<>((o1, o2) -> {
-                if(o1.score > o2.score) {
-                    return -1;
-                } else if (o1.score < o2.score) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            }));
-            for (Video video : problem.videoList.values()) {
-                double score = 0;
-                for (Endpoint endpoint : problem.endpointList.values()) {
-                    score += new ScoreKey(cache, endpoint, video).buildScore();
-//                    System.out.println("cache: " + cache.id
-//                            + " ; video: " + video.id
-//                            + " ; endpoint" + endpoint.id
-//                            + " ; score: " + score);
-                }
-                score = score / video.size;
-                map.get(cache).add(new VideoWithScore(video, score));
+            addVideosForCache(problem, cache);
+        }
+    }
+
+    public void addVideosForCache(Problem problem, Cache cache) {
+        System.out.println("doing cache n° " + cache.id + " / " + problem.C);
+        map.put(cache, new TreeSet<>((o1, o2) -> {
+            if(o1.score > o2.score) {
+                return -1;
+            } else if (o1.score < o2.score) {
+                return 1;
+            } else {
+                return 0;
             }
+        }));
+        for (Video video : problem.videoList.values()) {
+            double score = 0;
+            for (Endpoint endpoint : problem.endpointList.values()) {
+                score += new ScoreCalculator(cache, endpoint, video).buildScore();
+            }
+            score = score / video.size;
+            map.get(cache).add(new VideoWithScore(video, score));
         }
     }
 

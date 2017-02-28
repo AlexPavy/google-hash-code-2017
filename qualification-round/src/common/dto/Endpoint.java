@@ -3,17 +3,14 @@ package common.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by minhngocnguyen on 23/02/2017.
- */
 public class Endpoint {
     public int id;
-    public int datacenter_latency;
+    public int datacenterLatency;
     public int nbCache;
 
-    public Endpoint(int id, int datacenter_latency, int nbCache) {
+    public Endpoint(int id, int datacenterLatency, int nbCache) {
         this.id = id;
-        this.datacenter_latency = datacenter_latency;
+        this.datacenterLatency = datacenterLatency;
         this.nbCache = nbCache;
         this.connections = new HashMap<>();
     }
@@ -37,18 +34,4 @@ public class Endpoint {
         this.connections = connections;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Endpoint endpoint = (Endpoint) o;
-
-        return id == endpoint.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
-    }
 }

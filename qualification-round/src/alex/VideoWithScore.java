@@ -2,7 +2,6 @@ package alex;
 
 import common.dto.Video;
 
-// For a cache
 public class VideoWithScore {
 
     public final Video video;

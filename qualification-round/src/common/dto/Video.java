@@ -1,15 +1,14 @@
 package common.dto;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Created by minhngocnguyen on 23/02/2017.
- */
 public class Video {
+
     public int id;
     public int size;
-
 
     public Video(int id, int size) {
         this.id = id;
@@ -17,8 +16,11 @@ public class Video {
         this.requests = new HashMap<>();
     }
 
-    //Cle = idEndPoint, value = nbRequest
-    public Map<Integer,Integer> requests;
+    // Key = idEndPoint, value = nbRequest
+    public final Map<Integer,Integer> requests;
+
+    // build endpoints
+    public final List<Endpoint> possibleEndpoints = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -34,20 +36,5 @@ public class Video {
 
     public void setSize(int size) {
         this.size = size;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Video video = (Video) o;
-
-        return id == video.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return id;
     }
 }

@@ -3,9 +3,6 @@ package common.dto;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by minhngocnguyen on 23/02/2017.
- */
 public class Problem {
 
     public int V; //nb video
@@ -23,5 +20,4 @@ public class Problem {
     public Map<Integer,Cache> cacheList;
     public Map<Integer,Video> videoList;
     public Map<Integer,Endpoint> endpointList;
-
 }
