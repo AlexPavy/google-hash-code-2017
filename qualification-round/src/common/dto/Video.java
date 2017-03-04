@@ -7,8 +7,10 @@ import java.util.Map;
 
 public class Video {
 
-    public int id;
-    public int size;
+    public final int id;
+    public final int size;
+    public final Map<Integer,Integer> requests; // Key = idEndPoint, value = nbRequest
+    public final List<Endpoint> possibleEndpoints = new ArrayList<>(); // build endpoints
 
     public Video(int id, int size) {
         this.id = id;
@@ -16,25 +18,18 @@ public class Video {
         this.requests = new HashMap<>();
     }
 
-    // Key = idEndPoint, value = nbRequest
-    public final Map<Integer,Integer> requests;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    // build endpoints
-    public final List<Endpoint> possibleEndpoints = new ArrayList<>();
+        Video video = (Video) o;
 
-    public int getId() {
+        return id == video.id;
+    }
+
+    @Override
+    public int hashCode() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
     }
 }

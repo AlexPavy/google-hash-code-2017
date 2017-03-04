@@ -41,7 +41,6 @@ public class DirectHeuristicCalculator {
     public void addVideosInOrder() {
         for (Map.Entry<Cache, SortedSet<VideoWithScore>> cacheSortedSetEntry : map.entrySet()) {
             Cache cache = cacheSortedSetEntry.getKey();
-            cache.videoList = new ArrayList<>();
             int currentSize = 0;
             for (VideoWithScore videoWithScore : cacheSortedSetEntry.getValue()) {
                 int possibleSize = currentSize + videoWithScore.video.size;

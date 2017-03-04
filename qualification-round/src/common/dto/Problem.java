@@ -17,7 +17,7 @@ public class Problem {
         endpointList = new HashMap<>();
     }
 
-    public Map<Integer,Cache> cacheList;
-    public Map<Integer,Video> videoList;
-    public Map<Integer,Endpoint> endpointList;
+    public final Map<Integer,Cache> cacheList;
+    public final Map<Integer,Video> videoList;
+    public final Map<Integer,Endpoint> endpointList;
 }

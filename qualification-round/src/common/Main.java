@@ -1,7 +1,7 @@
 package common;
 
+import alex.CommonListScoreCalculator;
 import alex.DataPreparator;
-import alex.UpdatedScoreCalculator;
 import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Problem;
@@ -40,12 +40,8 @@ public class Main {
 
         // algo
         System.out.println("Algo starts");
-//        DirectHeuristicCalculator directHeuristicCalculator = new DirectHeuristicCalculator();
-//        directHeuristicCalculator.buildScores(problem);
-//        directHeuristicCalculator.addVideosInOrder();
-
-        UpdatedScoreCalculator updatedScoreCalculator = new UpdatedScoreCalculator(problem);
-        updatedScoreCalculator.buildScores();
+        CommonListScoreCalculator scoreCalculator = new CommonListScoreCalculator(problem);
+        scoreCalculator.buildScores();
         System.out.println("Algo ends");
 
         // output

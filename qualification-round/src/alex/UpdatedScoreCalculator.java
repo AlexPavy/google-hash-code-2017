@@ -22,7 +22,7 @@ public class UpdatedScoreCalculator {
         }
     }
 
-    public void addVideosForCache(Cache cache) {
+    private void addVideosForCache(Cache cache) {
         SortedSet<VideoWithScore> videoWithScores;
         System.out.println("doing cache n° " + cache.id + " / " + problem.C);
         videoWithScores = new TreeSet<>((o1, o2) -> {
@@ -46,7 +46,6 @@ public class UpdatedScoreCalculator {
     }
 
     private void addVideosInOrder(Cache cache, SortedSet<VideoWithScore> videoWithScores) {
-        cache.videoList = new ArrayList<>();
         int currentSize = 0;
         for (VideoWithScore videoWithScore : videoWithScores) {
             if (currentSize > 0 && videoWithScore.score <= 0) {
