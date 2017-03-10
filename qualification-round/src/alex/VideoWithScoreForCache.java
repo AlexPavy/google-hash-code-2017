@@ -1,7 +1,10 @@
 package alex;
 
+import com.google.common.collect.SortedMultiset;
 import common.dto.Cache;
 import common.dto.Video;
+
+import static com.google.common.collect.BoundType.OPEN;
 
 public class VideoWithScoreForCache {
 
@@ -10,17 +13,30 @@ public class VideoWithScoreForCache {
 
     public double score;
     public boolean isScoreUpToDate;
+    public double estimatedSize;
 
     public VideoWithScoreForCache(Video video, double score, Cache cache) {
         this.video = video;
         this.score = score;
         this.cache = cache;
         isScoreUpToDate = true;
+        resetEstimatedSizeToActual();
+    }
+
+    public void resetEstimatedSizeToActual() {
+        estimatedSize = this.video.size;
     }
 
     public void updateScore(double newScore) {
         score = newScore;
         isScoreUpToDate = true;
+    }
+
+    public double updateEstimatedSize(SortedMultiset<VideoWithScoreForCache> commonList) {
+        double pos = commonList.headMultiset(this, OPEN).size() - 1;
+        double maxPos = commonList.size();
+        estimatedSize = video.size * (1 - (pos / maxPos));
+        return estimatedSize;
     }
 
     @Override

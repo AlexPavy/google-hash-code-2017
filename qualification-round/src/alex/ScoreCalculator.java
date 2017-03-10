@@ -5,7 +5,10 @@ import common.dto.Endpoint;
 import common.dto.Problem;
 import common.dto.Video;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class ScoreCalculator {
 
@@ -72,5 +75,57 @@ public class ScoreCalculator {
             latency = minLatency;
         }
         minLatencies.put(minLatencyKey, Math.min(latency, minLatency));
+    }
+
+
+    static int zombieCluster(String[] zombies) {
+        if (zombies == null) {
+            return -1;
+        }
+
+        Map<Integer, Integer> clustersByZombies = new HashMap<>(); // zombieID to clusterID
+        Map<Integer, Set<Integer>> zombiesByClusters = new HashMap<>(); // clusterID to list of zombieIDs
+        Integer lastClusterId = 0;
+        for (Integer i = 0; i< zombies.length; i++) {
+            if (zombies[i] == null) {
+                return -1;
+            }
+            for (Integer j = 0; j< zombies[i].length(); j++) {
+                Integer clusterI = clustersByZombies.get(i);
+                Integer clusterJ = clustersByZombies.get(j);
+                if (zombies[i].charAt(j) == '1') {
+                    if (clusterI != null) {
+                        if (clusterJ != null) { // J merge into I
+                            for (Integer zombieID : zombiesByClusters.get(clusterJ)) {
+                                clustersByZombies.put(zombieID, clusterI);
+                                zombiesByClusters.get(clusterI).add(zombieID);
+                            }
+                            zombiesByClusters.remove(clusterJ);
+                        } else { // j to I
+                            clustersByZombies.put(j, clusterI);
+                            zombiesByClusters.get(clusterI).add(j);
+                        }
+                    } else if (clusterJ != null) { // i to J
+                        clustersByZombies.put(i, clusterJ);
+                        zombiesByClusters.get(clusterJ).add(i);
+                    } else { // create (i,j)
+                        lastClusterId++;
+                        clustersByZombies.put(i, lastClusterId);
+                        clustersByZombies.put(j, lastClusterId);
+                        zombiesByClusters.put(lastClusterId, new HashSet<>());
+                        zombiesByClusters.get(lastClusterId).add(i);
+                        zombiesByClusters.get(lastClusterId).add(j);
+                    }
+                } else {
+                    if (clusterI == null) { // create (i)
+                        lastClusterId++;
+                        clustersByZombies.put(i, lastClusterId);
+                        zombiesByClusters.put(lastClusterId, new HashSet<>());
+                        zombiesByClusters.get(lastClusterId).add(i);
+                    }
+                }
+            }
+        }
+        return zombiesByClusters.keySet().size();
     }
 }

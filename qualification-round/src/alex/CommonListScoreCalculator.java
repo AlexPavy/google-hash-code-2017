@@ -14,15 +14,7 @@ public class CommonListScoreCalculator {
     final Map<Video, List<VideoWithScoreForCache>> indexByVideo = new HashMap<>();
 
     // Common list of videos for all caches
-    PriorityQueue<VideoWithScoreForCache> commonList = new PriorityQueue<>((o1, o2) -> {
-        if (o1.score > o2.score) {
-            return -1;
-        } else if (o1.score < o2.score) {
-            return 1;
-        } else {
-            return 0;
-        }
-    });
+    PriorityQueue<VideoWithScoreForCache> commonList = new PriorityQueue<>(newVideoWithScoreForCacheComparator());
 
     public CommonListScoreCalculator(Problem problem) {
         this.problem = problem;
@@ -51,7 +43,7 @@ public class CommonListScoreCalculator {
                     newScore += new ScoreCalculator(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
                             .buildScoreUpdated(problem, minLatencies);
                 }
-                newScore = newScore / nextVideoForCache.video.size;
+                newScore = newScore * nextVideoForCache.cache.getRemainingSize() / nextVideoForCache.video.size;
                 nextVideoForCache.updateScore(newScore);
                 commonList.add(nextVideoForCache);
             } else {
@@ -87,7 +79,7 @@ public class CommonListScoreCalculator {
                 for (Endpoint endpoint : video.possibleEndpoints) {
                     score += new ScoreCalculator(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
                 }
-                score = score / video.size;
+                score = score * cache.getRemainingSize() / video.size;
                 VideoWithScoreForCache videoForCache = new VideoWithScoreForCache(video, score, cache);
                 commonList.add(videoForCache);
                 indexByVideo.computeIfAbsent(video, k -> new ArrayList<>());
@@ -95,6 +87,18 @@ public class CommonListScoreCalculator {
             }
         }
         System.out.println("createVideosForCachesList ends with global list size: " + commonList.size());
+    }
+
+    public static Comparator<VideoWithScoreForCache> newVideoWithScoreForCacheComparator() {
+        return (o1, o2) -> {
+            if (o1.score > o2.score) {
+                return -1;
+            } else if (o1.score < o2.score) {
+                return 1;
+            } else {
+                return 0;
+            }
+        };
     }
 
 }

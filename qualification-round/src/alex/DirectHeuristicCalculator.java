@@ -19,15 +19,7 @@ public class DirectHeuristicCalculator {
 
     public void addVideosForCache(Problem problem, Cache cache) {
         System.out.println("doing cache n° " + cache.id + " / " + problem.C);
-        map.put(cache, new TreeSet<>((o1, o2) -> {
-            if(o1.score > o2.score) {
-                return -1;
-            } else if (o1.score < o2.score) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }));
+        map.put(cache, new TreeSet<>(newVideoWithScoreComparator()));
         for (Video video : problem.videoList.values()) {
             double score = 0;
             for (Endpoint endpoint : problem.endpointList.values()) {
@@ -52,9 +44,19 @@ public class DirectHeuristicCalculator {
                     break;
                 }
             }
-
         }
+    }
 
+    public static Comparator<VideoWithScore> newVideoWithScoreComparator() {
+        return (o1, o2) -> {
+            if(o1.score > o2.score) {
+                return -1;
+            } else if (o1.score < o2.score) {
+                return 1;
+            } else {
+                return 0;
+            }
+        };
     }
 
 }

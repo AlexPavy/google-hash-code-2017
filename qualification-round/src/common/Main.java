@@ -1,7 +1,7 @@
 package common;
 
-import alex.CommonListScoreCalculator;
 import alex.DataPreparator;
+import alex.WithSizePredictionCalculator;
 import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Problem;
@@ -40,7 +40,7 @@ public class Main {
 
         // algo
         System.out.println("Algo starts");
-        CommonListScoreCalculator scoreCalculator = new CommonListScoreCalculator(problem);
+        WithSizePredictionCalculator scoreCalculator = new WithSizePredictionCalculator(problem);
         scoreCalculator.buildScores();
         System.out.println("Algo ends");
 
