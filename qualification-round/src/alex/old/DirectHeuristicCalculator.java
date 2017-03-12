@@ -1,5 +1,7 @@
-package alex;
+package alex.old;
 
+import alex.ScoreBuilder;
+import alex.VideoWithScore;
 import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Problem;
@@ -12,7 +14,7 @@ public class DirectHeuristicCalculator {
     final Map<Cache, SortedSet<VideoWithScore>> map = new HashMap<>();
 
     public void buildScores(Problem problem) {
-        for (Cache cache : problem.cacheList.values()) {
+        for (Cache cache : problem.cacheMap.values()) {
             addVideosForCache(problem, cache);
         }
     }
@@ -20,10 +22,10 @@ public class DirectHeuristicCalculator {
     public void addVideosForCache(Problem problem, Cache cache) {
         System.out.println("doing cache n° " + cache.id + " / " + problem.C);
         map.put(cache, new TreeSet<>(newVideoWithScoreComparator()));
-        for (Video video : problem.videoList.values()) {
+        for (Video video : problem.videoMap.values()) {
             double score = 0;
-            for (Endpoint endpoint : problem.endpointList.values()) {
-                score += new ScoreCalculator(cache, endpoint, video).buildScore();
+            for (Endpoint endpoint : problem.endpointMap.values()) {
+                score += new ScoreBuilder(cache, endpoint, video).buildScore();
             }
             score = score / video.size;
             map.get(cache).add(new VideoWithScore(video, score));
@@ -37,7 +39,7 @@ public class DirectHeuristicCalculator {
             for (VideoWithScore videoWithScore : cacheSortedSetEntry.getValue()) {
                 int possibleSize = currentSize + videoWithScore.video.size;
                 if (cache.getSize() >= possibleSize) {
-                    cache.videoList.add(videoWithScore.video);
+                    cache.videoSet.add(videoWithScore);
                     currentSize = possibleSize;
                 }
                 if (cache.getSize() <= currentSize) {

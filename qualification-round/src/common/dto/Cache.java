@@ -1,11 +1,10 @@
 package common.dto;
 
+import alex.VideoWithScore;
 import alex.VideoWithScoreForCache;
 import com.google.common.collect.SortedMultiset;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 
@@ -15,7 +14,7 @@ public class Cache {
     private static int UPDATE_CACHE_PERIOD = 1000;
 
     public final int id;
-    public final List<Video> videoList;
+    public final Set<VideoWithScore> videoSet;
     public final Set<VideoWithScoreForCache> estimatedVideos;
 
     private final int size;
@@ -28,17 +27,17 @@ public class Cache {
     public Cache(int id, int size) {
         this.id = id;
         this.size = size;
-        videoList = new ArrayList<>();
+        videoSet = new HashSet<>();
         currentSize = 0;
         estimatedVideos = new HashSet<>();
         estimatedSizeCache = null;
         resetCacheTimer = 0;
     }
 
-    public boolean addVideoIfPossible(Video video) {
-        if (currentSize + video.size <= size) {
-            videoList.add(video);
-            currentSize += video.size;
+    public boolean addVideoIfPossible(VideoWithScoreForCache videoWithScoreForCache) {
+        if (currentSize + videoWithScoreForCache.video.size <= size) {
+            videoSet.add(new VideoWithScore(videoWithScoreForCache.video, videoWithScoreForCache.score));
+            currentSize += videoWithScoreForCache.video.size;
             return true;
         } else {
             return false;
@@ -103,14 +102,14 @@ public class Cache {
         return size;
     }
 
-    public List<Video> getVideoList() {
-        return videoList;
+    public Set<VideoWithScore> getVideoSet() {
+        return videoSet;
     }
 
     public String printVideos() {
         String toString = id + "";
-        for (Video video : getVideoList()){
-            toString +=  " " + video.id;
+        for (VideoWithScore videoWithScore : getVideoSet()){
+            toString +=  " " + videoWithScore.video.id;
         }
         return toString;
     }

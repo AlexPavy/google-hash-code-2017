@@ -51,7 +51,7 @@ public class WithSizePredictionCalculator {
                 nextVideoForCache.updateScore(newScore);
                 addVideoToCommonList(nextVideoForCache);
             } else {
-                boolean added = nextVideoForCache.cache.addVideoIfPossible(nextVideoForCache.video);
+                boolean added = nextVideoForCache.addIfPossible();
                 if (added) {
                     resetScoresForVideo(nextVideoForCache);
                 }
@@ -61,7 +61,7 @@ public class WithSizePredictionCalculator {
 
     private void resetScoresForVideo(VideoWithScoreForCache nextVideoForCache) {
         for (Endpoint endpoint : nextVideoForCache.video.possibleEndpoints) {
-            new ScoreCalculator(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
+            new ScoreBuilder(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
                     .updateMinLatencyWithVideoAdded(minLatencies);
         }
         for (VideoWithScoreForCache otherScoreOfVideo : indexByVideo.get(nextVideoForCache.video)) {
@@ -89,8 +89,8 @@ public class WithSizePredictionCalculator {
 
     private void createVideosForCachesList() {
         int iterations = 0;
-        for (Cache cache : problem.cacheList.values()) {
-            for (Video video : problem.videoList.values()) {
+        for (Cache cache : problem.cacheMap.values()) {
+            for (Video video : problem.videoMap.values()) {
                 final double score = calculateScore(cache, video, iterations);
                 final VideoWithScoreForCache videoForCache = new VideoWithScoreForCache(video, score, cache);
                 addVideoToCommonList(videoForCache);
@@ -105,7 +105,7 @@ public class WithSizePredictionCalculator {
     private double calculateScore(Cache cache, Video video, int iterations) {
         double score = 0;
         for (Endpoint endpoint : video.possibleEndpoints) {
-            score += new ScoreCalculator(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
+            score += new ScoreBuilder(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
         }
         boolean recalculate = shouldRecalculate(iterations);
         score = updateScoreWithSizes(recalculate, cache, video, score);

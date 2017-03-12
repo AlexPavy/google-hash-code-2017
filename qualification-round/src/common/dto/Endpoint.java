@@ -8,21 +8,21 @@ public class Endpoint {
     public final int id;
     public final int datacenterLatency;
     public final int nbCache;
-    public final Map<Integer,Integer> connections; // key = idCache, value = latency
+    public final Map<Integer,Integer> latencyToCacheMap; // key = idCache, value = latency
 
     public Endpoint(int id, int datacenterLatency, int nbCache) {
         this.id = id;
         this.datacenterLatency = datacenterLatency;
         this.nbCache = nbCache;
-        this.connections = new HashMap<>();
+        this.latencyToCacheMap = new HashMap<>();
     }
 
     public int getId() {
         return id;
     }
 
-    public Map<Integer, Integer> getConnections() {
-        return connections;
+    public Map<Integer, Integer> getLatencyToCacheMap() {
+        return latencyToCacheMap;
     }
 
     @Override

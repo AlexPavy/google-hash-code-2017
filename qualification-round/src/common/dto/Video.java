@@ -9,13 +9,13 @@ public class Video {
 
     public final int id;
     public final int size;
-    public final Map<Integer,Integer> requests; // Key = idEndPoint, value = nbRequest
+    public final Map<Integer, Integer> requestsMap; // Key = idEndPoint, value = nbRequest
     public final List<Endpoint> possibleEndpoints = new ArrayList<>(); // build endpoints
 
     public Video(int id, int size) {
         this.id = id;
         this.size = size;
-        this.requests = new HashMap<>();
+        this.requestsMap = new HashMap<>();
     }
 
     @Override

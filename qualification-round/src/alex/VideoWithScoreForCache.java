@@ -39,6 +39,10 @@ public class VideoWithScoreForCache {
         return estimatedSize;
     }
 
+    public boolean addIfPossible() {
+        return cache.addVideoIfPossible(this);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

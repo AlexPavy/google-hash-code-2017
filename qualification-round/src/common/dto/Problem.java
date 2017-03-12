@@ -12,12 +12,12 @@ public class Problem {
     public int X; //cache capacity
 
     public Problem() {
-        cacheList = new HashMap<>();
-        videoList = new HashMap<>();
-        endpointList = new HashMap<>();
+        cacheMap = new HashMap<>();
+        videoMap = new HashMap<>();
+        endpointMap = new HashMap<>();
     }
 
-    public final Map<Integer,Cache> cacheList;
-    public final Map<Integer,Video> videoList;
-    public final Map<Integer,Endpoint> endpointList;
+    public final Map<Integer,Cache> cacheMap;
+    public final Map<Integer,Video> videoMap;
+    public final Map<Integer,Endpoint> endpointMap;
 }

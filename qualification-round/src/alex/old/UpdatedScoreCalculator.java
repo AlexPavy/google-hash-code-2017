@@ -1,11 +1,17 @@
-package alex;
+package alex.old;
 
+import alex.MinLatencyKey;
+import alex.ScoreBuilder;
+import alex.VideoWithScore;
 import common.dto.Cache;
 import common.dto.Endpoint;
 import common.dto.Problem;
 import common.dto.Video;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class UpdatedScoreCalculator {
 
@@ -17,7 +23,7 @@ public class UpdatedScoreCalculator {
     }
 
     public void buildScores() {
-        for (Cache cache : problem.cacheList.values()) {
+        for (Cache cache : problem.cacheMap.values()) {
             addVideosForCache(cache);
         }
     }
@@ -34,10 +40,10 @@ public class UpdatedScoreCalculator {
                 return 0;
             }
         });
-        for (Video video : problem.videoList.values()) {
+        for (Video video : problem.videoMap.values()) {
             double score = 0;
             for (Endpoint endpoint : video.possibleEndpoints) {
-                score += new ScoreCalculator(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
+                score += new ScoreBuilder(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
             }
             score = score / video.size;
             videoWithScores.add(new VideoWithScore(video, score));
@@ -53,9 +59,9 @@ public class UpdatedScoreCalculator {
             }
             int possibleSize = currentSize + videoWithScore.video.size;
             if (cache.getSize() >= possibleSize) {
-                cache.videoList.add(videoWithScore.video);
+                cache.videoSet.add(videoWithScore);
                 for (Endpoint endpoint : videoWithScore.video.possibleEndpoints) {
-                    new ScoreCalculator(cache, endpoint, videoWithScore.video)
+                    new ScoreBuilder(cache, endpoint, videoWithScore.video)
                             .updateMinLatencyWithVideoAdded(minLatencies);
                 }
                 currentSize = possibleSize;

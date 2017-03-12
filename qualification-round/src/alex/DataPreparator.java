@@ -8,9 +8,9 @@ public class DataPreparator {
 
     public Problem prepareData(Problem problem) {
         System.out.println("prepareData begins");
-        for (Video video : problem.videoList.values()) {
-            for (Endpoint endpoint : problem.endpointList.values()) {
-                Integer latency = video.requests.get(endpoint.id);
+        for (Video video : problem.videoMap.values()) {
+            for (Endpoint endpoint : problem.endpointMap.values()) {
+                Integer latency = video.requestsMap.get(endpoint.id);
                 if (latency != null) {
                     video.possibleEndpoints.add(endpoint);
                 }

@@ -40,17 +40,17 @@ public class CommonListScoreCalculator {
             if (!nextVideoForCache.isScoreUpToDate) {
                 double newScore = 0;
                 for (Endpoint endpoint : nextVideoForCache.video.possibleEndpoints) {
-                    newScore += new ScoreCalculator(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
+                    newScore += new ScoreBuilder(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
                             .buildScoreUpdated(problem, minLatencies);
                 }
                 newScore = newScore * nextVideoForCache.cache.getRemainingSize() / nextVideoForCache.video.size;
                 nextVideoForCache.updateScore(newScore);
                 commonList.add(nextVideoForCache);
             } else {
-                boolean added = nextVideoForCache.cache.addVideoIfPossible(nextVideoForCache.video);
+                boolean added = nextVideoForCache.addIfPossible();
                 if (added) {
                     for (Endpoint endpoint : nextVideoForCache.video.possibleEndpoints) {
-                        new ScoreCalculator(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
+                        new ScoreBuilder(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
                                 .updateMinLatencyWithVideoAdded(minLatencies);
                     }
                     for (VideoWithScoreForCache otherScoreOfVideo : indexByVideo.get(nextVideoForCache.video)) {
@@ -73,11 +73,11 @@ public class CommonListScoreCalculator {
     }
 
     public void createVideosForCachesList() {
-        for (Cache cache : problem.cacheList.values()) {
-            for (Video video : problem.videoList.values()) {
+        for (Cache cache : problem.cacheMap.values()) {
+            for (Video video : problem.videoMap.values()) {
                 double score = 0;
                 for (Endpoint endpoint : video.possibleEndpoints) {
-                    score += new ScoreCalculator(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
+                    score += new ScoreBuilder(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
                 }
                 score = score * cache.getRemainingSize() / video.size;
                 VideoWithScoreForCache videoForCache = new VideoWithScoreForCache(video, score, cache);
