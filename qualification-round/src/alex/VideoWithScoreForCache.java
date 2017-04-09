@@ -1,8 +1,12 @@
 package alex;
 
 import com.google.common.collect.SortedMultiset;
-import common.dto.Cache;
-import common.dto.Video;
+import common.model.Cache;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
+
+import java.util.Map;
 
 import static com.google.common.collect.BoundType.OPEN;
 
@@ -30,6 +34,16 @@ public class VideoWithScoreForCache {
     public void updateScore(double newScore) {
         score = newScore;
         isScoreUpToDate = true;
+    }
+
+    public void reCalculateScore(final Problem problem, final Map<MinLatencyKey, Integer> minLatencies) {
+        double newScore = 0;
+        for (Endpoint endpoint : video.requestingEndpoints) {
+            newScore += new ScoreBuilder(cache, endpoint, video)
+                    .buildScoreUpdated(problem, minLatencies);
+        }
+        newScore = newScore * cache.getRemainingSize() / video.size;
+        updateScore(newScore);
     }
 
     public double updateEstimatedSize(SortedMultiset<VideoWithScoreForCache> commonList) {

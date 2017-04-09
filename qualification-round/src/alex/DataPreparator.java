@@ -1,8 +1,8 @@
 package alex;
 
-import common.dto.Endpoint;
-import common.dto.Problem;
-import common.dto.Video;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
 
 public class DataPreparator {
 
@@ -12,7 +12,7 @@ public class DataPreparator {
             for (Endpoint endpoint : problem.endpointMap.values()) {
                 Integer latency = video.requestsMap.get(endpoint.id);
                 if (latency != null) {
-                    video.possibleEndpoints.add(endpoint);
+                    video.requestingEndpoints.add(endpoint);
                 }
             }
 

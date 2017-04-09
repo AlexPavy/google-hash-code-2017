@@ -3,10 +3,10 @@ package alex.old;
 import alex.MinLatencyKey;
 import alex.ScoreBuilder;
 import alex.VideoWithScore;
-import common.dto.Cache;
-import common.dto.Endpoint;
-import common.dto.Problem;
-import common.dto.Video;
+import common.model.Cache;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class UpdatedScoreCalculator {
         });
         for (Video video : problem.videoMap.values()) {
             double score = 0;
-            for (Endpoint endpoint : video.possibleEndpoints) {
+            for (Endpoint endpoint : video.requestingEndpoints) {
                 score += new ScoreBuilder(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
             }
             score = score / video.size;
@@ -60,7 +60,7 @@ public class UpdatedScoreCalculator {
             int possibleSize = currentSize + videoWithScore.video.size;
             if (cache.getSize() >= possibleSize) {
                 cache.videoSet.add(videoWithScore);
-                for (Endpoint endpoint : videoWithScore.video.possibleEndpoints) {
+                for (Endpoint endpoint : videoWithScore.video.requestingEndpoints) {
                     new ScoreBuilder(cache, endpoint, videoWithScore.video)
                             .updateMinLatencyWithVideoAdded(minLatencies);
                 }

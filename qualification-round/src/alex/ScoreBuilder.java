@@ -1,9 +1,9 @@
 package alex;
 
-import common.dto.Cache;
-import common.dto.Endpoint;
-import common.dto.Problem;
-import common.dto.Video;
+import common.model.Cache;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
 
 import java.util.Map;
 
@@ -17,27 +17,6 @@ public class ScoreBuilder {
         this.cache = cache;
         this.endpoint = endpoint;
         this.video = video;
-    }
-
-    public double buildScore() {
-        Map<Integer, Integer> connections = endpoint.getLatencyToCacheMap();
-        Integer latencyInt = connections.get(cache.id);
-        if (latencyInt == null) {
-            return 0;
-        }
-        double latencyDifference = latencyInt - endpoint.datacenterLatency; // why does this give less good result ?
-        double latencyDouble = (double) latencyInt;
-        if (endpoint.datacenterLatency <= latencyDouble) {
-            return 0;
-        }
-        double v;
-
-        if (video.requestsMap.get(endpoint.getId()) == null) {
-            v = 0;
-        } else {
-            v = ((double) video.requestsMap.get(endpoint.getId())) / latencyDouble;
-        }
-        return v;
     }
 
     public double buildScoreUpdated(Problem problem, Map<MinLatencyKey, Integer> minLatencies) {

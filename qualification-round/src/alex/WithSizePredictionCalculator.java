@@ -2,10 +2,10 @@ package alex;
 
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.TreeMultiset;
-import common.dto.Cache;
-import common.dto.Endpoint;
-import common.dto.Problem;
-import common.dto.Video;
+import common.model.Cache;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,7 +46,7 @@ public class WithSizePredictionCalculator {
                 continue;
             }
 
-            if (!nextVideoForCache.isScoreUpToDate) {
+                if (!nextVideoForCache.isScoreUpToDate) {
                 final double newScore = calculateScore(nextVideoForCache.cache, nextVideoForCache.video, iterations);
                 nextVideoForCache.updateScore(newScore);
                 addVideoToCommonList(nextVideoForCache);
@@ -60,7 +60,7 @@ public class WithSizePredictionCalculator {
     }
 
     private void resetScoresForVideo(VideoWithScoreForCache nextVideoForCache) {
-        for (Endpoint endpoint : nextVideoForCache.video.possibleEndpoints) {
+        for (Endpoint endpoint : nextVideoForCache.video.requestingEndpoints) {
             new ScoreBuilder(nextVideoForCache.cache, endpoint, nextVideoForCache.video)
                     .updateMinLatencyWithVideoAdded(minLatencies);
         }
@@ -104,7 +104,7 @@ public class WithSizePredictionCalculator {
 
     private double calculateScore(Cache cache, Video video, int iterations) {
         double score = 0;
-        for (Endpoint endpoint : video.possibleEndpoints) {
+        for (Endpoint endpoint : video.requestingEndpoints) {
             score += new ScoreBuilder(cache, endpoint, video).buildScoreUpdated(problem, minLatencies);
         }
         boolean recalculate = shouldRecalculate(iterations);
@@ -116,13 +116,14 @@ public class WithSizePredictionCalculator {
         return iterations <= RECALC_THRESHOLD;
     }
 
-    private double updateScoreWithSizes(boolean useCache, Cache cache, Video video, double score) {
-        score = score * cache.getRemainingSize();
-        double estimatedSize = cache.getEstimatedSize(useCache, commonList) + video.size;
-        if (estimatedSize > 0) {
-            score = score / estimatedSize;
-        }
-        return score;
+    private double updateScoreWithSizes(boolean recalculate, Cache cache, Video video, final double score) {
+        double remainingSize = cache.getRemainingSize();
+        double estimatedSize = cache.getEstimatedSize(recalculate, commonList) + video.size;
+//        if (estimatedSize <= 0) {
+//            return score;
+//        }
+//        return score / (estimatedSize - remainingSize);
+        return score / video.size;
     }
 
     private void addVideoToCommonList(VideoWithScoreForCache videoForCache) {

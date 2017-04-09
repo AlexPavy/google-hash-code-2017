@@ -1,11 +1,12 @@
 package alex.result;
 
 import alex.VideoWithScore;
-import common.dto.Cache;
-import common.dto.Endpoint;
-import common.dto.Problem;
-import common.dto.Video;
+import common.model.Cache;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,9 +19,8 @@ public class FitnessCalculator {
     }
 
     public int fitness(final Problem problem) {
-        int totalGain = 0;
-        int totalRequestNb = 0;
-
+        long totalGain = 0;
+        long totalRequestNb = 0;
         for (Video video : problem.videoMap.values()) {
             for (Map.Entry<Integer, Integer> request : video.requestsMap.entrySet()) {
                 int gain = getGainForRequest(request, problem, video);
@@ -48,7 +48,7 @@ public class FitnessCalculator {
 
     public void printAllFilesFitness() {
         System.out.println("");
-        System.out.println("Results");
+        System.out.println("Results - " + new Date());
         int total = 0;
         for (Map.Entry<String, Integer> fitnessForFile : fitnessByInputFile.entrySet()) {
             System.out.println(fitnessForFile.getKey() + ": " + fitnessForFile.getValue());

@@ -1,4 +1,4 @@
-package common.dto;
+package common.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +10,8 @@ public class Video {
     public final int id;
     public final int size;
     public final Map<Integer, Integer> requestsMap; // Key = idEndPoint, value = nbRequest
-    public final List<Endpoint> possibleEndpoints = new ArrayList<>(); // build endpoints
+    public final List<Endpoint> requestingEndpoints = new ArrayList<>(); // build endpoints
+    public final List<Cache> potentialCaches = new ArrayList<>();
 
     public Video(int id, int size) {
         this.id = id;

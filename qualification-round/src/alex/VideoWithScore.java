@@ -1,11 +1,16 @@
 package alex;
 
-import common.dto.Video;
+import common.model.Video;
 
 public class VideoWithScore {
 
     public final Video video;
     public final double score;
+
+    public VideoWithScore(VideoWithScoreForCache videoForCache) {
+        this.video = videoForCache.video;
+        this.score = videoForCache.score;
+    }
 
     public VideoWithScore(Video video, double score) {
         this.video = video;

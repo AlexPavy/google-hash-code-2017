@@ -1,19 +1,21 @@
 package common;
 
-import alex.CommonListScoreCalculator;
 import alex.DataPreparator;
+import alex.WithSizePredictionCalculator;
 import alex.result.FitnessCalculator;
-import common.dto.Cache;
-import common.dto.Endpoint;
-import common.dto.Problem;
-import common.dto.Video;
+import common.model.Cache;
+import common.model.Endpoint;
+import common.model.Problem;
+import common.model.Video;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        System.out.println("GHC 2017 qualification start - " + new Date());
         if (args[0] == null) {
             System.out.println("No filename specified");
             return;
@@ -43,7 +45,7 @@ public class Main {
 
         // algo
         System.out.println("Algo starts");
-        CommonListScoreCalculator scoreCalculator = new CommonListScoreCalculator(problem);
+        WithSizePredictionCalculator scoreCalculator = new WithSizePredictionCalculator(problem);
         scoreCalculator.buildScores();
         System.out.println("Algo ends");
 
