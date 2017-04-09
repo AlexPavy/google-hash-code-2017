@@ -1,14 +1,11 @@
 package alex;
 
-import com.google.common.collect.SortedMultiset;
 import common.model.Cache;
 import common.model.Endpoint;
 import common.model.Problem;
 import common.model.Video;
 
 import java.util.Map;
-
-import static com.google.common.collect.BoundType.OPEN;
 
 public class VideoWithScoreForCache {
 
@@ -44,13 +41,6 @@ public class VideoWithScoreForCache {
         }
         newScore = newScore * cache.getRemainingSize() / video.size;
         updateScore(newScore);
-    }
-
-    public double updateEstimatedSize(SortedMultiset<VideoWithScoreForCache> commonList) {
-        double pos = commonList.headMultiset(this, OPEN).size() - 1;
-        double maxPos = commonList.size();
-        estimatedSize = video.size * (1 - (pos / maxPos));
-        return estimatedSize;
     }
 
     public boolean addIfPossible() {
