@@ -119,6 +119,8 @@ public class PlusSwitchesScoreCalculator {
             }
         });
         cachesByHeuristicLoad.addAll(problem.cacheMap.values());
+
+//        keep order of video insertion to know which cache is second best for that video
 //
 //        tabu search
 //        mark current sol as best sol
