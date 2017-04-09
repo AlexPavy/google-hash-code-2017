@@ -24,6 +24,7 @@ public class WithSizePredictionCalculator {
     final Map<Video, List<VideoWithScoreForCache>> indexByVideo = new HashMap<>();
 
     // Common list of videos for all caches
+    // TODO: find a priority queue with the position of each element calculated
     final SortedMultiset<VideoWithScoreForCache> commonList = TreeMultiset
             .create(newVideoWithScoreForCacheComparator());
 
