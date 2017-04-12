@@ -1,7 +1,7 @@
 package common;
 
 import alex.DataPreparator;
-import alex.WithSizePredictionCalculator;
+import alex.WithFutureVideoSwapCalculator;
 import alex.result.FitnessCalculator;
 import common.model.Cache;
 import common.model.Endpoint;
@@ -45,7 +45,7 @@ public class Main {
 
         // algo
         System.out.println("Algo starts");
-        WithSizePredictionCalculator scoreCalculator = new WithSizePredictionCalculator(problem);
+        WithFutureVideoSwapCalculator scoreCalculator = new WithFutureVideoSwapCalculator(problem);
         scoreCalculator.buildScores();
         System.out.println("Algo ends");
 

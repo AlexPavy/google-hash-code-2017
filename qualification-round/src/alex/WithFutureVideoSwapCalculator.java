@@ -7,7 +7,7 @@ import common.model.Video;
 
 import java.util.*;
 
-public class CommonListScoreCalculator {
+public class WithFutureVideoSwapCalculator {
 
     final Map<MinLatencyKey, Integer> minLatencies = new HashMap<>();
     final Problem problem;
@@ -16,16 +16,18 @@ public class CommonListScoreCalculator {
     // Common list of videos for all caches
     PriorityQueue<VideoWithScoreForCache> commonList = new PriorityQueue<>(newVideoWithScoreForCacheComparator());
 
-    public CommonListScoreCalculator(Problem problem) {
+    public WithFutureVideoSwapCalculator(Problem problem) {
         this.problem = problem;
     }
 
     public void buildScores() {
         createVideosForCachesList();
+        updateScoresWithSizePrediction();
+        updateScoresWithSizePrediction();
+
         int iterations = 0;
 
         while (commonList.size() > 0) {
-
             VideoWithScoreForCache nextVideoForCache = commonList.peek();
             commonList.remove(nextVideoForCache);
             iterations = printIteration(iterations, nextVideoForCache);
@@ -39,6 +41,7 @@ public class CommonListScoreCalculator {
 
             if (!nextVideoForCache.isScoreUpToDate) {
                 nextVideoForCache.reCalculateScore(problem, minLatencies);
+                updateScoreFutureGains(nextVideoForCache);
                 commonList.add(nextVideoForCache);
             } else {
                 boolean added = nextVideoForCache.addIfPossible();
@@ -79,6 +82,30 @@ public class CommonListScoreCalculator {
             }
         }
         System.out.println("createVideosForCachesList ends with global list size: " + commonList.size());
+    }
+
+    private void updateScoresWithSizePrediction() {
+        System.out.println("updateScoresWithSizePrediction begins");
+        int i;
+        i = 1;
+        for (VideoWithScoreForCache videoForCache : commonList) {
+            videoForCache.cache.addVideoForEstimation(videoForCache);
+            i = printIteration(i, videoForCache);
+        }
+        final ArrayList<VideoWithScoreForCache> withUpdatedScores = new ArrayList<>(i);
+        i = 1;
+        while(commonList.size() > 0) {
+            VideoWithScoreForCache videoForCache = commonList.poll();
+            updateScoreFutureGains(videoForCache);
+            withUpdatedScores.add(videoForCache);
+            i = printIteration(i, videoForCache);
+        }
+        commonList.addAll(withUpdatedScores);
+        System.out.println("updateScoresWithSizePrediction ends");
+    }
+
+    private double updateScoreFutureGains(VideoWithScoreForCache videoForCache) {
+        return videoForCache.score - videoForCache.cache.cherryOnTop.score;
     }
 
     public static Comparator<VideoWithScoreForCache> newVideoWithScoreForCacheComparator() {

@@ -2,7 +2,6 @@ package common.model;
 
 import alex.VideoWithScore;
 import alex.VideoWithScoreForCache;
-import com.google.common.collect.SortedMultiset;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -10,19 +9,15 @@ import java.util.Set;
 
 public class Cache {
 
-    private static int RECALC_PERIOD = 100_000;
-    private static int UPDATE_CACHE_PERIOD = 1000;
-
     public final int id;
     public final Set<VideoWithScore> videoSet;
-    public final Set<VideoWithScoreForCache> estimatedVideos;
 
     private final int size;
 
     private int currentSize;
-    private Integer estimatedSizeCache;
-
-    private int resetCacheTimer;
+    private double estimatedSizeCache;
+    private int loadOfEstimatedSize; // sum of size of videos from estimation
+    public VideoWithScoreForCache cherryOnTop;
 
     public double loadHeuristic;
 
@@ -31,10 +26,9 @@ public class Cache {
         this.size = size;
         videoSet = new HashSet<>();
         currentSize = 0;
-        estimatedVideos = new HashSet<>();
-        estimatedSizeCache = null;
-        resetCacheTimer = 0;
+        estimatedSizeCache = 0;
         loadHeuristic = 0;
+        loadOfEstimatedSize = 0;
     }
 
     public boolean addVideoIfPossible(VideoWithScoreForCache videoWithScoreForCache) {
@@ -48,50 +42,11 @@ public class Cache {
         }
     }
 
-    // Future size needed
-    public double getEstimatedSize(boolean recalculate, SortedMultiset<VideoWithScoreForCache> commonList) {
-        if (recalculate || resetCacheTimer % RECALC_PERIOD == 0) {
-            resetCacheTimer = 0;
-            return getRecalculatedEstimatedSizeFromVideos(commonList);
-        }
-        resetCacheTimer++;
-        if (resetCacheTimer % UPDATE_CACHE_PERIOD == 0) {
-            estimatedSizeCache = null;
-        }
-
-        if (estimatedSizeCache != null) {
-            return estimatedSizeCache;
-        } else {
-            return getEstimatedSizeFromVideos();
-        }
-    }
-
-    public double getEstimatedSizeFromVideos() {
-        int estimatedSize = currentSize;
-        for (VideoWithScoreForCache estimatedVideo : estimatedVideos) {
-            estimatedSize += estimatedVideo.estimatedSize;
-        }
-        estimatedSizeCache = estimatedSize;
-        return estimatedSize;
-    }
-
-    public double getRecalculatedEstimatedSizeFromVideos(SortedMultiset<VideoWithScoreForCache> commonList) {
-        int estimatedSize = currentSize;
-        for (VideoWithScoreForCache estimatedVideo : estimatedVideos) {
-            estimatedSize += estimatedVideo.updateEstimatedSize(commonList);
-        }
-        estimatedSizeCache = estimatedSize;
-        return estimatedSize;
-    }
-
     public void addVideoForEstimation(VideoWithScoreForCache estimatedVideo) {
-        resetCacheTimer++;
-        estimatedVideos.add(estimatedVideo);
-    }
-
-    public void removeVideoFromEstimation(VideoWithScoreForCache estimatedVideo) {
-        resetCacheTimer++;
-        estimatedVideos.remove(estimatedVideo);
+        if (loadOfEstimatedSize <= size && size < loadOfEstimatedSize + estimatedVideo.video.size) {
+            cherryOnTop = estimatedVideo;
+        }
+        loadOfEstimatedSize += estimatedVideo.video.size;
     }
 
     public void addToHeuristicLoad(VideoWithScoreForCache videoForCache, double maxScore) {
